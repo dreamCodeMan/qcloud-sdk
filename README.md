@@ -50,9 +50,9 @@ func main() {
 #### Region
 ---
 |是否完成         | 接口名称           | 接口功能  |
-| ------------- |:-------------:| -----:|
-| 是      - [x] | DescribeRegions | 查询地域列表 |
-| 是     - [x] | DescribeZones      |   查询可用区列表 |
+| -------------  |:-------------:| -----:|
+| 是      	| DescribeRegions | 查询地域列表 |
+| 是     	| DescribeZones      |   查询可用区列表 |
 
 
 ## License
