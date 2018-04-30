@@ -21,7 +21,11 @@ type ChargePrepaid struct {
 }
 
 type AllocateHostsResponse struct {
+<<<<<<< HEAD
 	RequestId string   `json:"RequestId"`
+=======
+	RequestID string   `json:"RequestId"`
+>>>>>>> add hosts
 	HostIdSet []string `json:"HostIdSet"`
 	Error     Error    `json:"Error"`
 }
@@ -31,7 +35,11 @@ func (client *Client) AllocateHosts(args AllocateHostsArgs) (*AllocateHostsRespo
 	Response := &Response{
 		Response: realRsp,
 	}
+<<<<<<< HEAD
 	err := client.Invoke("AllocateHosts", args, Response)
+=======
+	err := client.Invoke("AllocateHosts", realRsp, Response)
+>>>>>>> add hosts
 	if err != nil {
 		return &AllocateHostsResponse{}, err
 	}
@@ -80,7 +88,11 @@ func (client *Client) DescribeHosts(args DescribeHostsArgs) (*DescribeHostsRespo
 	Response := &Response{
 		Response: realRsp,
 	}
+<<<<<<< HEAD
 	err := client.Invoke("DescribeHosts", args, Response)
+=======
+	err := client.Invoke("DescribeHosts", realRsp, Response)
+>>>>>>> add hosts
 	if err != nil {
 		return &DescribeHostsResponse{}, err
 	}
@@ -95,7 +107,11 @@ type ModifyHostsAttributeArgs struct {
 }
 
 type ModifyHostsAttributeResponse struct {
+<<<<<<< HEAD
 	RequestId string `json:"RequestId"`
+=======
+	RequestID string `json:"RequestId"`
+>>>>>>> add hosts
 	Error     Error  `json:"Error"`
 }
 
@@ -104,7 +120,11 @@ func (client *Client) ModifyHostsAttribute(args ModifyHostsAttributeArgs) (*Modi
 	Response := &Response{
 		Response: realRsp,
 	}
+<<<<<<< HEAD
 	err := client.Invoke("ModifyHostsAttribute", args, Response)
+=======
+	err := client.Invoke("ModifyHostsAttribute", realRsp, Response)
+>>>>>>> add hosts
 	if err != nil {
 		return &ModifyHostsAttributeResponse{}, err
 	}
@@ -118,7 +138,11 @@ type RenewHostsArgs struct {
 }
 
 type RenewHostsResponse struct {
+<<<<<<< HEAD
 	RequestId string `json:"RequestId"`
+=======
+	RequestID string `json:"RequestId"`
+>>>>>>> add hosts
 	Error     Error  `json:"Error"`
 }
 
@@ -127,7 +151,11 @@ func (client *Client) RenewHosts(args RenewHostsArgs) (*RenewHostsResponse, erro
 	Response := &Response{
 		Response: realRsp,
 	}
+<<<<<<< HEAD
 	err := client.Invoke("RenewHosts", args, Response)
+=======
+	err := client.Invoke("RenewHosts", realRsp, Response)
+>>>>>>> add hosts
 	if err != nil {
 		return &RenewHostsResponse{}, err
 	}

@@ -60,107 +60,117 @@ func setQueryValues(i interface{}, values *url.Values, prefix string) {
 	}
 	elemType := elem.Type()
 
-	for i := 0; i < elem.NumField(); i++ {
-
-		fieldName := elemType.Field(i).Name
-		anonymous := elemType.Field(i).Anonymous
-		field := elem.Field(i)
-		// TODO Use Tag for validation
-		// tag := typ.Field(i).Tag.Get("tagname")
-		kind := field.Kind()
-		isPtr := false
-		if (kind == reflect.Ptr || kind == reflect.Array || kind == reflect.Slice || kind == reflect.Map || kind == reflect.Chan) && field.IsNil() {
-			continue
-		}
-		if kind == reflect.Ptr {
-			field = field.Elem()
-			kind = field.Kind()
-			isPtr = true
-		}
-		var value string
-		//switch field.Interface().(type) {
-		switch kind {
-		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-			i := field.Int()
-			if i != 0 || isPtr {
-				value = strconv.FormatInt(i, 10)
-			}
-		case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-			i := field.Uint()
-			if i != 0 || isPtr {
-				value = strconv.FormatUint(i, 10)
-			}
-		case reflect.Float32:
-			value = strconv.FormatFloat(field.Float(), 'f', 4, 32)
-		case reflect.Float64:
-			value = strconv.FormatFloat(field.Float(), 'f', 4, 64)
-		case reflect.Bool:
-			value = strconv.FormatBool(field.Bool())
-		case reflect.String:
-			value = field.String()
-		case reflect.Map:
-			ifc := field.Interface()
-			m := ifc.(map[string]string)
-			if m != nil {
-				j := 0
-				for k, v := range m {
-					j++
-					keyName := fmt.Sprintf("%s.%d.Name", fieldName, j)
-					values.Set(keyName, k)
-					valueName := fmt.Sprintf("%s.%d.Value", fieldName, j)
-					values.Set(valueName, v)
-				}
-			}
-		case reflect.Slice:
-			//log.Println(fieldName, "====")
-			switch field.Type().Elem().Kind() {
-			case reflect.Uint8:
-				value = string(field.Bytes())
-			case reflect.String:
-				FlattenFn(fieldName, field, values)
-			default:
-				l := field.Len()
-				for j := 0; j < l; j++ {
-					prefixName := fmt.Sprintf("%s.%d.", fieldName, j)
-					ifc := field.Index(j).Interface()
-					//log.Printf("=====%s : %v", prefixName, ifc)
-					if ifc != nil {
-						setQueryValues(ifc, values, prefixName)
-					}
-				}
+	switch elem.Kind() {
+	case reflect.String:
+		values.Set(strings.Trim(prefix, "."), elem.String())
+	case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+		values.Set(strings.Trim(prefix, "."), fmt.Sprint(elem))
+	case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64, reflect.Uintptr:
+		values.Set(strings.Trim(prefix, "."), fmt.Sprint(elem))
+	case reflect.Float32, reflect.Float64:
+		values.Set(strings.Trim(prefix, "."), fmt.Sprint(elem))
+	case reflect.Bool:
+		values.Set(strings.Trim(prefix, "."), fmt.Sprint(elem))
+	default:
+		for i := 0; i < elem.NumField(); i++ {
+			fieldName := elemType.Field(i).Name
+			anonymous := elemType.Field(i).Anonymous
+			field := elem.Field(i)
+			// TODO Use Tag for validation
+			// tag := typ.Field(i).Tag.Get("tagname")
+			kind := field.Kind()
+			isPtr := false
+			if (kind == reflect.Ptr || kind == reflect.Array || kind == reflect.Slice || kind == reflect.Map || kind == reflect.Chan) && field.IsNil() {
 				continue
 			}
+			if kind == reflect.Ptr {
+				field = field.Elem()
+				kind = field.Kind()
+				isPtr = true
+			}
+			var value string
 
-		default:
-			switch field.Interface().(type) {
-			case ISO6801Time:
-				t := field.Interface().(ISO6801Time)
-				value = t.String()
-			case time.Time:
-				t := field.Interface().(time.Time)
-				value = GetISO8601TimeStamp(t)
-			default:
+			switch kind {
+			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
+				i := field.Int()
+				if i != 0 || isPtr {
+					value = strconv.FormatInt(i, 10)
+				}
+			case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
+				i := field.Uint()
+				if i != 0 || isPtr {
+					value = strconv.FormatUint(i, 10)
+				}
+			case reflect.Float32:
+				value = strconv.FormatFloat(field.Float(), 'f', 4, 32)
+			case reflect.Float64:
+				value = strconv.FormatFloat(field.Float(), 'f', 4, 64)
+			case reflect.Bool:
+				value = strconv.FormatBool(field.Bool())
+			case reflect.String:
+				value = field.String()
+			case reflect.Map:
 				ifc := field.Interface()
-				if ifc != nil {
-					if anonymous {
-						SetQueryValues(ifc, values)
-					} else {
-						prefixName := prefix + fieldName + "." //修改，新增前缀
-						setQueryValues(ifc, values, prefixName)
+				m := ifc.(map[string]string)
+				if m != nil {
+					j := 0
+					for k, v := range m {
+						j++
+						keyName := fmt.Sprintf("%s%s.%d.Name", prefix, fieldName, j)
+						values.Set(keyName, k)
+						valueName := fmt.Sprintf("%s%s.%d.Value", prefix, fieldName, j)
+						values.Set(valueName, v)
+					}
+				}
+			case reflect.Slice:
+				switch field.Type().Elem().Kind() {
+				case reflect.Uint8:
+					value = string(field.Bytes())
+				case reflect.String:
+					FlattenFn(fieldName, field, values)
+				default:
+					l := field.Len()
+					for j := 0; j < l; j++ {
+						prefixName := fmt.Sprintf("%s%s.%d.", prefix, fieldName, j)
+						ifc := field.Index(j).Interface()
+						if ifc != nil {
+							setQueryValues(ifc, values, prefixName)
+						}
 					}
 					continue
 				}
+
+			default:
+				switch field.Interface().(type) {
+				case ISO6801Time:
+					t := field.Interface().(ISO6801Time)
+					value = t.String()
+				case time.Time:
+					t := field.Interface().(time.Time)
+					value = GetISO8601TimeStamp(t)
+				default:
+					ifc := field.Interface()
+					if ifc != nil {
+						if anonymous {
+							SetQueryValues(ifc, values)
+						} else {
+							prefixName := prefix + fieldName + "." //修改，新增前缀
+							setQueryValues(ifc, values, prefixName)
+						}
+						continue
+					}
+				}
 			}
-		}
-		if value != "" {
-			name := elemType.Field(i).Tag.Get("qcloud_arg")
-			if name == "" {
-				name = fieldName
+			if value != "" {
+				name := elemType.Field(i).Tag.Get("qcloud_arg")
+				if name == "" {
+					name = fieldName
+				}
+				if prefix != "" {
+					name = prefix + name
+				}
+				values.Set(name, value)
 			}
-			if prefix != "" {
-				name = prefix + name
-			}
-			values.Set(name, value)
 		}
 	}
 }
@@ -181,7 +191,6 @@ func setQueryValuesByFlattenMethod(i interface{}, values *url.Values, prefix str
 	}
 	elemType := elem.Type()
 	for i := 0; i < elem.NumField(); i++ {
-
 		fieldName := elemType.Field(i).Name
 		anonymous := elemType.Field(i).Anonymous
 		field := elem.Field(i)
@@ -201,7 +210,7 @@ func setQueryValuesByFlattenMethod(i interface{}, values *url.Values, prefix str
 		}
 
 		var value string
-		//switch field.Interface().(type) {
+
 		switch kind {
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			i := field.Int()
@@ -260,7 +269,7 @@ func setQueryValuesByFlattenMethod(i interface{}, values *url.Values, prefix str
 					for j := 0; j < l; j++ {
 						prefixName := fmt.Sprintf("%s.%d.", fieldName, j)
 						ifc := field.Index(j).Interface()
-						log.Printf("%s : %v", prefixName, ifc)
+						//log.Printf("%s : %v", prefixName, ifc)
 						if ifc != nil {
 							setQueryValuesByFlattenMethod(ifc, values, prefixName)
 						}
