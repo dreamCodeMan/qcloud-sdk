@@ -664,3 +664,209 @@ func (client *Client) ResetInstance(args ResetInstanceArgs) (*ResetInstanceRespo
 	}
 	return realRsp, nil
 }
+
+//调整实例带宽上限 https://cloud.tencent.com/document/api/213/15721
+type ResetInstancesInternetMaxBandwidthArgs struct {
+	InstanceIds *[]string `qcloud_arg:"InstanceIds"`
+	StartTime   string    `qcloud_arg:"StartTime"` //格式：YYYY-MM-DD
+	EndTime     string    `qcloud_arg:"EndTime"`   //格式：YYYY-MM-DD
+
+	InternetAccessible InternetAccessible `json:"InternetAccessible"`
+}
+
+type ResetInstancesInternetMaxBandwidthResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) ResetInstancesInternetMaxBandwidth(args ResetInstancesInternetMaxBandwidthArgs) (*ResetInstancesInternetMaxBandwidthResponse, error) {
+	realRsp := &ResetInstancesInternetMaxBandwidthResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("ResetInstancesInternetMaxBandwidth", args, Response)
+	if err != nil {
+		return &ResetInstancesInternetMaxBandwidthResponse{}, err
+	}
+	return realRsp, nil
+}
+
+//重置实例密码 https://cloud.tencent.com/document/api/213/15736
+type ResetInstancesPasswordArgs struct {
+	InstanceIds *[]string `qcloud_arg:"InstanceIds"`
+	Password    string    `qcloud_arg:"Password"`
+	UserName    string    `qcloud_arg:"UserName"`
+	ForceStop   bool      `qcloud_arg:"ForceStop"`
+}
+
+type ResetInstancesPasswordResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) ResetInstancesPassword(args ResetInstancesPasswordArgs) (*ResetInstancesPasswordResponse, error) {
+	realRsp := &ResetInstancesPasswordResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("ResetInstancesPassword", args, Response)
+	if err != nil {
+		return &ResetInstancesPasswordResponse{}, err
+	}
+	return realRsp, nil
+}
+
+//调整实例配置 https://cloud.tencent.com/document/api/213/15744
+type ResetInstancesTypeArgs struct {
+	InstanceIds  *[]string `qcloud_arg:"InstanceIds"`
+	InstanceType string    `qcloud_arg:"InstanceType"`
+	ForceStop    bool      `qcloud_arg:"ForceStop"`
+}
+
+type ResetInstancesTypeResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) ResetInstancesType(args ResetInstancesTypeArgs) (*ResetInstancesTypeResponse, error) {
+	realRsp := &ResetInstancesTypeResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("ResetInstancesType", args, Response)
+	if err != nil {
+		return &ResetInstancesTypeResponse{}, err
+	}
+	return realRsp, nil
+}
+
+//扩容实例磁盘 https://cloud.tencent.com/document/api/213/15731
+type ResizeInstanceDisksArgs struct {
+	InstanceId string     `qcloud_arg:"InstanceId"`
+	DataDisks  []DataDisk `qcloud_arg:"DataDisks"`
+	ForceStop  bool       `qcloud_arg:"ForceStop"`
+}
+
+type ResizeInstanceDisksResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) ResizeInstanceDisks(args ResizeInstanceDisksArgs) (*ResizeInstanceDisksResponse, error) {
+	realRsp := &ResizeInstanceDisksResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("ResizeInstanceDisks", args, Response)
+	if err != nil {
+		return &ResizeInstanceDisksResponse{}, err
+	}
+	return realRsp, nil
+}
+
+//创建实例 https://cloud.tencent.com/document/api/213/15730
+type RunInstancesArgs struct {
+	InstanceChargeType string   `qcloud_arg:"InstanceChargeType"`
+	InstanceType       string   `qcloud_arg:"InstanceType"`
+	ImageId            string   `qcloud_arg:"ImageId"`
+	InstanceCount      int      `qcloud_arg:"InstanceCount"`
+	InstanceName       string   `qcloud_arg:"InstanceName"`
+	SecurityGroupIds   []string `qcloud_arg:"SecurityGroupIds"`
+	ClientToken        string   `qcloud_arg:"ClientToken"`
+	HostName           string   `qcloud_arg:"HostName"`
+
+	InstanceChargePrepaid InstanceChargePrepaid `qcloud_arg:"InstanceChargePrepaid"`
+	Placement             Placement             `qcloud_arg:"Placement"`
+	SystemDisk            SystemDisk            `qcloud_arg:"SystemDisk"`
+	DataDisks             []DataDisk            `qcloud_arg:"DataDisks"`
+	InternetAccessible    InternetAccessible    `qcloud_arg:"InternetAccessible"`
+	VirtualPrivateCloud   VirtualPrivateCloud   `qcloud_arg:"VirtualPrivateCloud"`
+	LoginSettings         LoginSettings         `qcloud_arg:"LoginSettings"`
+	EnhancedService       EnhancedService       `qcloud_arg:"EnhancedService"`
+	ActionTimer           ActionTimer           `qcloud_arg:"ActionTimer"`
+	TagSpecification      []TagSpecification    `qcloud_arg:"TagSpecification"`
+}
+
+type ActionTimer struct {
+	TimerAction string    `qcloud_arg:"TimerAction"`
+	ActionTime  string    `qcloud_arg:"ActionTime"`
+	Externals   Externals `qcloud_arg:"Externals"`
+}
+
+type Externals struct {
+	ReleaseAddress bool `qcloud_arg:"ReleaseAddress"`
+}
+
+type RunInstancesResponse struct {
+	RequestId     string   `json:"RequestId"`
+	InstanceIdSet []string `json:"InstanceIdSet"`
+	Error         Error    `json:"Error"`
+}
+
+func (client *Client) RunInstances(args InquiryPriceRunInstancesArgs) (*RunInstancesResponse, error) {
+	realRsp := &RunInstancesResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("RunInstances", args, Response)
+	if err != nil {
+		return &RunInstancesResponse{}, err
+	}
+	return realRsp, nil
+}
+
+//启动实例 https://cloud.tencent.com/document/api/213/15735
+type StartInstancesArgs struct {
+	InstanceIds  *[]string `qcloud_arg:"InstanceIds"`
+	InstanceType string    `qcloud_arg:"InstanceType"`
+	ForceStop    bool      `qcloud_arg:"ForceStop"`
+}
+
+type StartInstancesResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) StartInstances(args StartInstancesArgs) (*StartInstancesResponse, error) {
+	realRsp := &StartInstancesResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("StartInstances", args, Response)
+	if err != nil {
+		return &StartInstancesResponse{}, err
+	}
+	return realRsp, nil
+}
+
+//关闭实例 https://cloud.tencent.com/document/api/213/15743
+type StopInstancesArgs struct {
+	InstanceIds  *[]string `qcloud_arg:"InstanceIds"`
+	InstanceType string    `qcloud_arg:"InstanceType"`
+	ForceStop    bool      `qcloud_arg:"ForceStop"`
+	StopType     string    `qcloud_arg:"StopType"`
+	StoppedMode  string    `qcloud_arg:"StoppedMode"`
+}
+
+type StopInstancesResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) StopInstances(args StopInstancesArgs) (*StopInstancesResponse, error) {
+	realRsp := &StopInstancesResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("StopInstances", args, Response)
+	if err != nil {
+		return &StopInstancesResponse{}, err
+	}
+	return realRsp, nil
+}
