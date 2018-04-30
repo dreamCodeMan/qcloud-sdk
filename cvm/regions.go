@@ -5,7 +5,7 @@ type DescribeRegionsArgs struct {
 
 type DescribeRegionsResponse struct {
 	TotalCount int          `json:"TotalCount"`
-	RequestID  string       `json:"RequestId"`
+	RequestId  string       `json:"RequestId"`
 	RegionSet  []RegionInfo `json:"RegionSet"`
 	Error      Error        `json:"Error"`
 }
@@ -31,7 +31,7 @@ func (client *Client) DescribeRegions() (*DescribeRegionsResponse, error) {
 
 type DescribeZonesResponse struct {
 	TotalCount int        `json:"TotalCount"`
-	RequestID  string     `json:"RequestId"`
+	RequestId  string     `json:"RequestId"`
 	ZoneSet    []ZoneInfo `json:"ZoneSet"`
 	Error      Error      `json:"Error"`
 }

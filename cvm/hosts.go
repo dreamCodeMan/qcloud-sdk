@@ -21,7 +21,7 @@ type ChargePrepaid struct {
 }
 
 type AllocateHostsResponse struct {
-	RequestID string   `json:"RequestId"`
+	RequestId string   `json:"RequestId"`
 	HostIdSet []string `json:"HostIdSet"`
 	Error     Error    `json:"Error"`
 }
@@ -31,7 +31,7 @@ func (client *Client) AllocateHosts(args AllocateHostsArgs) (*AllocateHostsRespo
 	Response := &Response{
 		Response: realRsp,
 	}
-	err := client.Invoke("AllocateHosts", realRsp, Response)
+	err := client.Invoke("AllocateHosts", args, Response)
 	if err != nil {
 		return &AllocateHostsResponse{}, err
 	}
@@ -80,7 +80,7 @@ func (client *Client) DescribeHosts(args DescribeHostsArgs) (*DescribeHostsRespo
 	Response := &Response{
 		Response: realRsp,
 	}
-	err := client.Invoke("DescribeHosts", realRsp, Response)
+	err := client.Invoke("DescribeHosts", args, Response)
 	if err != nil {
 		return &DescribeHostsResponse{}, err
 	}
@@ -95,7 +95,7 @@ type ModifyHostsAttributeArgs struct {
 }
 
 type ModifyHostsAttributeResponse struct {
-	RequestID string `json:"RequestId"`
+	RequestId string `json:"RequestId"`
 	Error     Error  `json:"Error"`
 }
 
@@ -104,7 +104,7 @@ func (client *Client) ModifyHostsAttribute(args ModifyHostsAttributeArgs) (*Modi
 	Response := &Response{
 		Response: realRsp,
 	}
-	err := client.Invoke("ModifyHostsAttribute", realRsp, Response)
+	err := client.Invoke("ModifyHostsAttribute", args, Response)
 	if err != nil {
 		return &ModifyHostsAttributeResponse{}, err
 	}
@@ -118,7 +118,7 @@ type RenewHostsArgs struct {
 }
 
 type RenewHostsResponse struct {
-	RequestID string `json:"RequestId"`
+	RequestId string `json:"RequestId"`
 	Error     Error  `json:"Error"`
 }
 
@@ -127,7 +127,7 @@ func (client *Client) RenewHosts(args RenewHostsArgs) (*RenewHostsResponse, erro
 	Response := &Response{
 		Response: realRsp,
 	}
-	err := client.Invoke("RenewHosts", realRsp, Response)
+	err := client.Invoke("RenewHosts", args, Response)
 	if err != nil {
 		return &RenewHostsResponse{}, err
 	}
