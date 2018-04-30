@@ -49,16 +49,10 @@ func main() {
 ---
 #### Region
 ---
-是否完成 | 接口名称 | 接口功能
-- | :-: | -:
-- [x] | DescribeRegions| 查询地域列表
-- [x] | DescribeZones | 查询可用区列表
-
-|Tables         | Are           | Cool  |
+|是否完成         | 接口名称           | 接口功能  |
 | ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
+| [x]      | DescribeRegions | 查询地域列表 |
+| [x]      | DescribeZones      |   查询可用区列表 |
 
 
 ## License
