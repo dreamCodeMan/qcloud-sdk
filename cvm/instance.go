@@ -870,3 +870,52 @@ func (client *Client) StopInstances(args StopInstancesArgs) (*StopInstancesRespo
 	}
 	return realRsp, nil
 }
+
+//退还实例 https://cloud.tencent.com/document/api/213/15723
+type TerminateInstancesArgs struct {
+	InstanceIds *[]string `qcloud_arg:"InstanceIds"`
+	DryRun      bool      `qcloud_arg:"DryRun"`
+}
+
+type TerminateInstancesResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) TerminateInstances(args TerminateInstancesArgs) (*TerminateInstancesResponse, error) {
+	realRsp := &TerminateInstancesResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("TerminateInstances", args, Response)
+	if err != nil {
+		return &TerminateInstancesResponse{}, err
+	}
+	return realRsp, nil
+}
+
+//修改实例vpc属性 https://cloud.tencent.com/document/api/213/15750
+type UpdateInstanceVpcConfigArgs struct {
+	InstanceId          string              `qcloud_arg:"InstanceId"`
+	ForceStop           bool                `qcloud_arg:"ForceStop"`
+	VirtualPrivateCloud VirtualPrivateCloud `qcloud_arg:"VirtualPrivateCloud"`
+}
+
+type UpdateInstanceVpcConfigResponse struct {
+	RequestId string `json:"RequestId"`
+	TaskId    string `json:"TaskId"`
+	Error     Error  `json:"Error"`
+}
+
+func (client *Client) UpdateInstanceVpcConfig(args UpdateInstanceVpcConfigArgs) (*UpdateInstanceVpcConfigResponse, error) {
+	realRsp := &UpdateInstanceVpcConfigResponse{}
+	Response := &Response{
+		Response: realRsp,
+	}
+	err := client.Invoke("UpdateInstanceVpcConfig", args, Response)
+	if err != nil {
+		return &UpdateInstanceVpcConfigResponse{}, err
+	}
+	return realRsp, nil
+}
