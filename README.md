@@ -51,8 +51,8 @@ func main() {
 ---
 |是否完成         | 接口名称           | 接口功能  |
 | ------------- |:-------------:| -----:|
-| [x]      | DescribeRegions | 查询地域列表 |
-| [x]      | DescribeZones      |   查询可用区列表 |
+| -[x]      | DescribeRegions | 查询地域列表 |
+| -[x]      | DescribeZones      |   查询可用区列表 |
 
 
 ## License
