@@ -53,6 +53,26 @@ func main() {
 - | :-: | -:
 - [x] | DescribeRegions| 查询地域列表
 - [x] | DescribeZones | 查询可用区列表
+```html
+<table>
+<thead>
+<tr>
+<th>接口名称</th>
+<th>接口功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/document/api/213/15708" target="_blank">DescribeRegions</a></td>
+<td>查询地域列表</td>
+</tr>
+<tr>
+<td><a href="/document/api/213/15707" target="_blank">DescribeZones</a></td>
+<td>查询可用区列表</td>
+</tr>
+</tbody>
+</table>
+```
 
 
 ## License
