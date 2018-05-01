@@ -222,6 +222,87 @@ func main() {
 </tr>
 </tbody>
 </table>
+---
+#### 专用宿主机相关接口
+<table>
+<thead>
+<tr>
+<th>是否完成</th>
+<th>接口名称</th>
+<th>接口功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/16473" target="_blank">AllocateHosts</a></td>
+<td>创建CDH实例</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/16474" target="_blank">DescribeHosts</a></td>
+<td>查看CDH实例列表</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/16475" target="_blank">ModifyHostsAttribute</a></td>
+<td>修改CDH实例的属性</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/16476" target="_blank">RenewHosts</a></td>
+<td>续费CDH实例</td>
+</tr>
+</tbody>
+</table>
+---
+#### 密钥相关接口
+<table>
+<thead>
+<tr>
+<th>是否完成</th>
+<th>接口名称</th>
+<th>接口功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/15698" target="_blank">AssociateInstancesKeyPairs</a></td>
+<td>绑定密钥对</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/15702" target="_blank">CreateKeyPair</a></td>
+<td>创建密钥对</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/15700" target="_blank">DeleteKeyPairs</a></td>
+<td>删除密钥对</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/15699" target="_blank">DescribeKeyPairs</a></td>
+<td>查询密钥对列表</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/15697" target="_blank">DisassociateInstancesKeyPairs</a></td>
+<td>解绑密钥对</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/15703" target="_blank">ImportKeyPair</a></td>
+<td>导入密钥对</td>
+</tr>
+<tr>
+<td>是</td>
+<td><a href="/document/api/213/15701" target="_blank">ModifyKeyPairAttribute</a></td>
+<td>修改密钥对属性</td>
+</tr>
+</tbody>
+</table>
 
 ---
 #### 专用宿主机相关接口
