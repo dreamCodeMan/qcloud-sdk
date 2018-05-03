@@ -397,7 +397,9 @@ func main() {
 <td>是</td>
 <td><a href="/document/api/213/15701" target="_blank">ModifyKeyPairAttribute</a></td>
 <td>修改密钥对属性</td>
-=======
+</tr>
+<tr>
+<td>是</td>
 <td><a href="/document/api/213/15741" target="_blank">ColdMigrateInstance</a></td>
 <td>冷迁移实例</td>
 </tr>
