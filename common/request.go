@@ -36,7 +36,7 @@ func (request *Request) init(version, action, secretId, region string) {
 	request.Nonce = fmt.Sprint(uint(rand.Int()))
 	request.Action = action
 	request.SecretId = secretId
-	request.SubAppId = 1400097436
+	//request.SubAppId = 1000 //需要子账号的在此填写ID
 	request.Region = region
 	request.Version = version
 	request.RequestClient = "QcloudGO_SDK_" + Version
