@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"sort"
+	"strings"
 	"time"
 )
 
@@ -144,4 +145,8 @@ func GenerateRandomECSPassword() string {
 
 	return string(s)
 
+}
+
+func FristLetterToLower(str string) string {
+	return strings.ToLower(str[0:1]) + str[1:]
 }

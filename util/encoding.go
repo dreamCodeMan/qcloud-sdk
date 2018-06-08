@@ -12,7 +12,7 @@ import (
 )
 
 // change instance=["a", "b"]
-// to instance.1=a instance.2=b
+// to instance.0=a instance.1=b
 func FlattenFn(fieldName string, field reflect.Value, values *url.Values) {
 	l := field.Len()
 	if l > 0 {
@@ -44,7 +44,6 @@ func SetQueryValueByFlattenMethod(ifc interface{}, values *url.Values) {
 }
 
 func setQueryValues(i interface{}, values *url.Values, prefix string) {
-
 	// add to support url.Values
 	mapValues, ok := i.(url.Values)
 	if ok {
@@ -75,9 +74,13 @@ func setQueryValues(i interface{}, values *url.Values, prefix string) {
 		for i := 0; i < elem.NumField(); i++ {
 			fieldName := elemType.Field(i).Name
 			anonymous := elemType.Field(i).Anonymous
+
+			name := elemType.Field(i).Tag.Get("qcloud_arg")
+			if name != "" {
+				fieldName = name
+			}
 			field := elem.Field(i)
 			// TODO Use Tag for validation
-			// tag := typ.Field(i).Tag.Get("tagname")
 			kind := field.Kind()
 			isPtr := false
 			if (kind == reflect.Ptr || kind == reflect.Array || kind == reflect.Slice || kind == reflect.Map || kind == reflect.Chan) && field.IsNil() {
@@ -92,15 +95,19 @@ func setQueryValues(i interface{}, values *url.Values, prefix string) {
 
 			switch kind {
 			case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
-				i := field.Int()
-				if i != 0 || isPtr {
-					value = strconv.FormatInt(i, 10)
+				//i := field.Int()
+				//if i != 0 || isPtr {
+				//	value = strconv.FormatInt(i, 10)
+				//}
+				if isPtr {
 				}
+				value = strconv.FormatInt(field.Int(), 10)
 			case reflect.Uint, reflect.Uint8, reflect.Uint16, reflect.Uint32, reflect.Uint64:
-				i := field.Uint()
-				if i != 0 || isPtr {
-					value = strconv.FormatUint(i, 10)
-				}
+				//i := field.Uint()
+				//if i != 0 || isPtr {
+				//	value = strconv.FormatUint(i, 10)
+				//}
+				value = strconv.FormatUint(field.Uint(), 10)
 			case reflect.Float32:
 				value = strconv.FormatFloat(field.Float(), 'f', 4, 32)
 			case reflect.Float64:
@@ -115,11 +122,11 @@ func setQueryValues(i interface{}, values *url.Values, prefix string) {
 				if m != nil {
 					j := 0
 					for k, v := range m {
-						j++
 						keyName := fmt.Sprintf("%s%s.%d.Name", prefix, fieldName, j)
 						values.Set(keyName, k)
 						valueName := fmt.Sprintf("%s%s.%d.Value", prefix, fieldName, j)
 						values.Set(valueName, v)
+						j++
 					}
 				}
 			case reflect.Slice:

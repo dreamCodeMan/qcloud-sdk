@@ -38,9 +38,15 @@ func CreateSignatureSHA1(stringToSignature, accessKeySecret string) string {
 }
 
 func percentReplace(str string) string {
-	str = strings.Replace(str, "+", "%20", -1)
+	//str = url.QueryEscape(str)
+	//str = strings.Replace(str, "+", "%20", -1)
 	str = strings.Replace(str, "*", "%2A", -1)
 	str = strings.Replace(str, "%7E", "~", -1)
+
+	return str
+}
+
+func percentReplaceHttp(str string) string {
 	str = strings.Replace(str, "http://", "", -1)
 	str = strings.Replace(str, "https://", "", -1)
 
@@ -58,7 +64,7 @@ func CreateSignatureForRequest(method, apiHost, secretKey string, values *url.Va
 		kvs = append(kvs, fmt.Sprintf("%s=%s", k, values.Get(k)))
 	}
 	queryStr := strings.Join(kvs, "&")
-	reqStr := percentReplace(fmt.Sprintf("%s%s?%s", method, apiHost, queryStr))
+	reqStr := percentReplace(fmt.Sprintf("%s%s?%s", method, percentReplaceHttp(apiHost), queryStr))
 
 	return CreateSignatureSHA1(reqStr, secretKey)
 }

@@ -15,10 +15,11 @@ import (
 type Client struct {
 	SecretId     string
 	SecretKey    string
+	SubAppId     int //子账号ID
 	region       string
 	endpoint     string
 	Debug        bool
-	httpClient   *http.Client
+	HttpClient   *http.Client
 	version      string
 	businessInfo string
 	userAgent    string
@@ -29,7 +30,7 @@ func (client *Client) Init(endpoint, version, secretId, secretKey, region string
 	client.SecretId = secretId
 	client.SecretKey = secretKey
 	client.Debug = false
-	client.httpClient = &http.Client{}
+	client.HttpClient = &http.Client{}
 	client.endpoint = endpoint
 	client.version = version
 	client.region = region
@@ -40,18 +41,18 @@ func (client *Client) Invoke(action string, args interface{}, response interface
 
 	request := Request{}
 	request.init(client.version, action, client.SecretId, client.region)
-
 	query := util.ConvertToQueryValues(request)
 	util.SetQueryValues(args, &query)
-	//util.EncodeStruct(args, &query)
 	//delete null map
 	delete(query, "")
 
 	// Sign request
 	signature := util.CreateSignatureForRequest(CVMRequestMethod, client.endpoint, client.SecretKey, &query)
+	//log.Println(signature, "==", query)
 
 	// Generate the request URL
 	requestURL := client.endpoint + "?" + query.Encode() + "&Signature=" + url.QueryEscape(signature)
+	//log.Println(requestURL)
 
 	httpReq, err := http.NewRequest(CVMRequestMethod, requestURL, nil)
 
@@ -65,7 +66,7 @@ func (client *Client) Invoke(action string, args interface{}, response interface
 	httpReq.Header.Set("User-Agent", httpReq.UserAgent()+" "+client.userAgent)
 
 	t0 := time.Now()
-	httpResp, err := client.httpClient.Do(httpReq)
+	httpResp, err := client.HttpClient.Do(httpReq)
 	t1 := time.Now()
 	if err != nil {
 		return GetClientError(err)

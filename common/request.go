@@ -20,6 +20,7 @@ const (
 type Request struct {
 	Version         string
 	SecretId        string
+	SubAppId        int //子账号ID
 	Signature       string
 	SignatureMethod string
 	Timestamp       int64
@@ -35,6 +36,7 @@ func (request *Request) init(version, action, secretId, region string) {
 	request.Nonce = fmt.Sprint(uint(rand.Int()))
 	request.Action = action
 	request.SecretId = secretId
+	request.SubAppId = 1400097436
 	request.Region = region
 	request.Version = version
 	request.RequestClient = "QcloudGO_SDK_" + Version
